@@ -44,7 +44,9 @@ test_datagen = test_datagen.flow_from_directory(base_dir,
 model = Sequential() 
 model.add(Conv2D(filters=64, kernel_size=(5, 5), padding='same', 
                  activation='relu', input_shape=(224, 224, 3))) 
-model.add(MaxPooling2D(pool_size=(2, 2))) 
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+
   
   
 model.add(Conv2D(filters=64, kernel_size=(3, 3), 
@@ -63,15 +65,15 @@ model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 model.add(Flatten()) 
 model.add(Dense(512)) 
 model.add(Activation('relu')) 
-model.add(Dense(5, activation="softmax")) 
+model.add(Dense(8, activation="softmax")) 
 #model.summary()
 
 
 """model.compile(optimizer=keras.optimizers.Adam(), 
         loss='categorical_crossentropy', metrics=['accuracy'])
 epochs=40
-model.fit(train_datagen,epochs=epochs,validation_data=test_datagen)
-"""
+model.fit(train_datagen,epochs=epochs,validation_data=test_datagen)"""
+
 
 
 from keras.models import load_model 
@@ -89,10 +91,10 @@ print(train_datagen.class_indices)
 from keras.preprocessing import image 
   
  
-list_ = ['Papatya','Karahindiba','Gül','Ayçiçeği', 'Lale'] 
+list_ = ['Zambak','Lotus','Orkide','Papatya', 'Karahindiba','Gül','Ayçiçeği','Lale'] 
   
 
-test_image = image.load_img('bitirme_projesi_vs/thumb-image_6cm-25-adet-grup-renkli-gül-sabunu-çiçek-kafa-yapay.jpeg',target_size=(224,224)) 
+test_image = image.load_img('bitirme_projesi_vs/sunflower-1627193_1280.jpg',target_size=(224,224)) 
   
 
 plt.imshow(test_image)
@@ -116,13 +118,20 @@ print("-------------------------")
 
 
 url="https://www.wikipedia.tr-tr.nina.az/"+c_ismi+".html"
+print("-ÇİÇEĞİN ÖZELLİKLERİ-")
 
-print("-------------------------")
-r = requests.get(url=url)
+r = requests.get(url)
+html_page=r.content
 
-soup = BeautifulSoup(r.content,"lxml")
-print(soup.find("section",attrs={"class":"mf-section-0"}).text)
+soup = BeautifulSoup(html_page, 'html.parser')
+texts = soup.find_all('p')
 
+for text in texts:
+    
+    if text ==texts[0]:pass
+    else:
+     print("--------------")
+     print(text.get_text())
 
 
 
